@@ -1,6 +1,6 @@
 # Puppet Modules
 
-Puppet Modules contains Puppet modules for Debian based systems.
+Puppet modules for Debian based systems.
 
 ## Requirements
 
