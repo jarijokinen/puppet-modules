@@ -1,7 +1,11 @@
 #!/bin/sh -e
 
-if [ -x "/usr/sbin/logwatch" ]; then
-  /usr/sbin/logwatch --output mail
+if [ -x "/etc/cron.daily/00logwatch" ]; then
+  /etc/cron.daily/00logwatch
+fi
+
+if [ -x "/etc/cron.daily/rkhunter" ]; then
+  /etc/cron.daily/rkhunter
 fi
 
 exit 0
