@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if [ -x "/usr/sbin/logwatch" ]; then
+  /usr/sbin/logwatch --output mail
+fi
+
+exit 0
