@@ -1,16 +1,16 @@
-class chkrootkit {
+class chkrootkit inherits chkrootkit::params {
   package { "chkrootkit": 
-    ensure => "installed"
+    ensure => installed
   }
   file { "/etc/chkrootkit.conf":
-    ensure => "present",
+    ensure  => present,
     content => template("chkrootkit/conf.erb"),
     require => Package["chkrootkit"]
   }
   file { "/etc/cron.daily/chkrootkit":
-    ensure => "present",
+    ensure  => present,
     content => template("chkrootkit/cron.daily.erb"),
     require => Package["chkrootkit"],
-    mode => "0755"
+    mode    => "0755"
   }
 }

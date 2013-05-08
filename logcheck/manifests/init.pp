@@ -1,5 +1,5 @@
-class logcheck {
+class logcheck inherits logcheck::params {
   package { "logcheck": 
-    ensure => "installed"
+    ensure => installed
   }
 }

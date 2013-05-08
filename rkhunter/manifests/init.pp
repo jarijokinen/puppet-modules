@@ -1,9 +1,9 @@
-class rkhunter {
+class rkhunter inherits rkhunter::params {
   package { "rkhunter": 
-    ensure => "installed"
+    ensure => installed
   }
   file { "/etc/rkhunter.conf.local":
-    ensure => "present",
+    ensure  => present,
     content => template("rkhunter/conf.local.erb")
   }
 }

@@ -1,22 +1,22 @@
 class ntp inherits ntp::params {
   package { "ntp": 
-    ensure => "installed"
+    ensure => installed
   }
   service { "ntp":
-    ensure => "running",
-    enable => true,
+    ensure     => running,
+    enable     => true,
     hasrestart => true,
-    hasstatus => true,
-    require => Package["ntp"]
+    hasstatus  => true,
+    require    => Package["ntp"]
   }
   file { "/etc/ntp.conf":
-    ensure => "present",
+    ensure  => present,
     content => template("ntp/ntp.conf.erb"),
-    notify => Service["ntp"]
+    notify  => Service["ntp"]
   }
   file { "/etc/default/ntp":
-    ensure => "present",
+    ensure  => present,
     content => template("ntp/ntp.default.erb"),
-    notify => Service["ntp"]
+    notify  => Service["ntp"]
   }
 }

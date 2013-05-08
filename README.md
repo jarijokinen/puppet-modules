@@ -4,7 +4,7 @@ Puppet modules for Debian based systems.
 
 ## Requirements
 
-* Debian GNU/Linux 6.0 (squeeze)
+* Debian GNU/Linux 7.0 (wheezy)
 * Puppet 3.1
 
 ## Installation
