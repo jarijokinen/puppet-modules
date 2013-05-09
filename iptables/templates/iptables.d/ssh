@@ -1,0 +1,2 @@
+$INPUT -p tcp --dport <%= ssh_port %>
+$INPUT6 -p tcp --dport <%= ssh_port %>
