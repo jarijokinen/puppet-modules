@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# This file is managed by Puppet - DO NOT EDIT MANUALLY
+
+IFCONFIG="/sbin/ifconfig"
+IPTABLES="/sbin/iptables"
+
+EXTIF="eth0"
+EXTIP=`$IFCONFIG $EXTIF | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}'`
+
+INPUT="$IPTABLES -A INPUT -d $EXTIP -j ACCEPT"
+OUTPUT="$IPTABLES -A OUTPUT -s $EXTIP -j ACCEPT"
+
+$IPTABLES -F
+
+### DEFAULT RULES
+
+$IPTABLES -P INPUT DROP
+$IPTABLES -P OUTPUT DROP
+$IPTABLES -P FORWARD DROP
+
+### ACCEPT INPUT
+
+# Loopback interfaces
+$IPTABLES -A INPUT -i lo -j ACCEPT
+
+$INPUT -p tcp ! --syn
+
+### LOAD /etc/iptables.d/*
+
+for file in `find /etc/iptables.d -type f` ; do
+    . "$file"
+done
+
+### ACCEPT OUTPUT
+
+# Loopback interfaces
+$IPTABLES -A OUTPUT -o lo -j ACCEPT
+
+# All outgoing traffic
+$OUTPUT
+
+### LOG
+
+$IPTABLES -A INPUT -j LOG --log-level info
+$IPTABLES -A OUTPUT -j LOG --log-level info
+$IPTABLES -A FORWARD -j LOG --log-level info

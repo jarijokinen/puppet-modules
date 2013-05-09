@@ -1,0 +1,4 @@
+for nameserver in `perl -nle "/nameserver\D*(\d*\.\d*\.\d*\.\d*)/i && (\\$1=~/^127/ || print \\$1)" /etc/resolv.conf`; do                        
+    $INPUT -p tcp --sport domain -s $nameserver
+    $INPUT -p udp --sport domain -s $nameserver
+done;
