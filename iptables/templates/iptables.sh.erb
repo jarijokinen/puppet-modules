@@ -4,27 +4,37 @@
 
 IFCONFIG="/sbin/ifconfig"
 IPTABLES="/sbin/iptables"
+IP6TABLES="/sbin/ip6tables"
 
 EXTIF="eth0"
 EXTIP=`$IFCONFIG $EXTIF | grep 'inet addr:' | cut -d: -f2 | awk '{print $1}'`
+EXTIP6=`$IFCONFIG $EXTIF | grep 'inet6 addr:' | tr -s " " | cut -d" " -f4 | awk '{print $1}'`
 
 INPUT="$IPTABLES -A INPUT -d $EXTIP -j ACCEPT"
 OUTPUT="$IPTABLES -A OUTPUT -s $EXTIP -j ACCEPT"
+INPUT6="$IP6TABLES -A INPUT -d $EXTIP6 -j ACCEPT"
+OUTPUT6="$IP6TABLES -A OUTPUT -s $EXTIP6 -j ACCEPT"
 
 $IPTABLES -F
+$IP6TABLES -F
 
 ### DEFAULT RULES
 
 $IPTABLES -P INPUT DROP
 $IPTABLES -P OUTPUT DROP
 $IPTABLES -P FORWARD DROP
+$IP6TABLES -P INPUT DROP
+$IP6TABLES -P OUTPUT DROP
+$IP6TABLES -P FORWARD DROP
 
 ### ACCEPT INPUT
 
 # Loopback interfaces
 $IPTABLES -A INPUT -i lo -j ACCEPT
+$IP6TABLES -A INPUT -i lo -j ACCEPT
 
 $INPUT -p tcp ! --syn
+$INPUT6 -p tcp ! --syn
 
 ### LOAD /etc/iptables.d/*
 
@@ -36,12 +46,17 @@ done
 
 # Loopback interfaces
 $IPTABLES -A OUTPUT -o lo -j ACCEPT
+$IP6TABLES -A OUTPUT -o lo -j ACCEPT
 
 # All outgoing traffic
 $OUTPUT
+$OUTPUT6
 
 ### LOG
 
 $IPTABLES -A INPUT -j LOG --log-level info
 $IPTABLES -A OUTPUT -j LOG --log-level info
 $IPTABLES -A FORWARD -j LOG --log-level info
+$IP6TABLES -A INPUT -j LOG --log-level info
+$IP6TABLES -A OUTPUT -j LOG --log-level info
+$IP6TABLES -A FORWARD -j LOG --log-level info
