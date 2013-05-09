@@ -6,7 +6,7 @@ class iptables inherits iptables::params {
     ensure  => directory,
     purge   => true,
     recurse => true,
-    force   => true
+    force   => true,
     mode    => "0700",
     notify  => Exec["/usr/local/sbin/iptables.sh"]
   }
@@ -26,8 +26,8 @@ class iptables inherits iptables::params {
     command     => "/sbin/iptables-save > /etc/iptables.rules"
   }
   file { "/etc/iptables.rules":
-    ensure  => present,
-    mode => "0600"
+    ensure => present,
+    mode   => "0600"
   }
   file { "/etc/network/if-pre-up.d/iptables":
     ensure  => present,

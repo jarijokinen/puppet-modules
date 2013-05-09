@@ -1,4 +1,4 @@
-define iptables::module($ensure => "present") {
+define iptables::module($ensure = "present") {
   case $ensure {
     "present": {
       file { "/etc/iptables.d/$name":
