@@ -1,4 +1,9 @@
 define iptables::module($ensure = "present") {
+  case $name {
+    "ssh": {
+      $ssh_port = hiera("ssh::port", 22)
+    }
+  }
   case $ensure {
     "present": {
       file { "/etc/iptables.d/$name":

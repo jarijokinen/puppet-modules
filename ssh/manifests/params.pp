@@ -1,9 +1,14 @@
 class ssh::params {
+  $port = 22
+
   case $::osfamily {
     "Debian": {
+      case $::lsbdistcodename {
+        "wheezy": {
+        }
+        default: { fail("unsupported release ${::lsbdistcodename}") }
+      }
     }
-    default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily Debian")
-    }
+    default: { fail("unsupported platform ${::osfamily}") }
   }
 }
