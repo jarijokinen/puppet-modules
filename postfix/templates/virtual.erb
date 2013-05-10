@@ -1,0 +1,3 @@
+<%- virtual_alias_domains.split(",").each do |virtual_domain| -%>
+@<%= virtual_domain %> <%= virtual_alias_destination %>
+<%- end -%>
