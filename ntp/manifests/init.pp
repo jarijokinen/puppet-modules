@@ -1,4 +1,6 @@
-class ntp inherits ntp::params {
+class ntp(
+  $servers = $ntp::params::servers
+) inherits ntp::params {
   package { "ntp": 
     ensure => installed
   }
