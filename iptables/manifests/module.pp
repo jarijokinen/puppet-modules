@@ -1,5 +1,8 @@
 define iptables::module($ensure = "present") {
   case $name {
+    "ntp": {
+      $ntp_servers = hiera("ntp::servers", [])
+    }
     "ssh": {
       $ssh_port = hiera("ssh::port", 22)
     }
