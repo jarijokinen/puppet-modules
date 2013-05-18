@@ -29,7 +29,7 @@ class iptables inherits iptables::params {
     ensure => present,
     mode   => "0600"
   }
-  file { "/etc/network/if-pre-up.d/iptables":
+  file { "/etc/network/if-up.d/iptables":
     ensure  => present,
     mode    => "0700",
     content => template("iptables/iptables-restore.sh.erb"),
