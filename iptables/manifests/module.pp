@@ -12,7 +12,7 @@ define iptables::module($ensure = "present") {
       file { "/etc/iptables.d/$name":
         ensure  => present,
         mode    => "0600",
-        content => template("iptables/iptables.d/$name"),
+        content => template("iptables/iptables.d/$name.erb"),
         notify  => Exec["/usr/local/sbin/iptables.sh"]
       }
     }
