@@ -5,6 +5,10 @@ class postfix::params {
   # Relayhost
   # Supported backends: local
   $relayhost = ""
+  
+  # Virtual alias domains separated by commas
+  # Supported backends: local
+  $generic_mappings = {}
 
   # Virtual alias domains separated by commas
   # Supported backends: files

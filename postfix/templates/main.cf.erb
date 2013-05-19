@@ -42,4 +42,5 @@ inet_interfaces = all
 virtual_alias_maps = hash:/etc/postfix/virtual
 <%- else -%>
 inet_interfaces = loopback-only
+smtp_generic_maps = hash:/etc/postfix/generic
 <%- end -%>
