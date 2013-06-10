@@ -21,7 +21,7 @@ filegen clockstats file clockstats type day enable
 #server 1.debian.pool.ntp.org iburst
 #server 2.debian.pool.ntp.org iburst
 #server 3.debian.pool.ntp.org iburst
-<%- servers.each do |server| -%>
+<%- @servers.each do |server| -%>
 server <%= server %> iburst
 <%- end -%>
 
