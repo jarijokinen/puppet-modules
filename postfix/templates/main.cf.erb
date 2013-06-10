@@ -27,17 +27,17 @@ smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
 # information on enabling SSL in the smtp client.
 
-myhostname = <%= fqdn %>
+myhostname = <%= @fqdn %>
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
-mydestination = <%= fqdn %>, localhost
-relayhost = <%= relayhost %>
+mydestination = <%= @fqdn %>, localhost
+relayhost = <%= @relayhost %>
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
 recipient_delimiter = +
 inet_protocols = all
 
-<%- if backend == "files" -%>
+<%- if @backend == "files" -%>
 inet_interfaces = all
 virtual_alias_maps = hash:/etc/postfix/virtual
 <%- else -%>
