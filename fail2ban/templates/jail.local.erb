@@ -1,0 +1,66 @@
+[DEFAULT]
+
+ignoreip  = 127.0.0.1/8
+bantime   = 600
+maxretry  = 3
+backend   = polling
+destemail = root@localhost
+banaction = iptables-multiport
+mta       = sendmail
+protocol  = tcp
+action    = %(action_mwl)s
+
+[ssh]
+
+enabled  = <%= @jails.include?('ssh') : 'true' : 'false' %>
+port     = <%= @ssh_port %>
+filter   = sshd
+logpath  = /var/log/auth.log
+maxretry = 3
+
+[apache-noscript]
+
+enabled  = <%= @jails.include?('apache-noscript') : 'true' : 'false' %>
+port     = http,https
+filter   = apache-noscript
+logpath  = /var/log/apache*/*error.log
+maxretry = 6
+
+[apache-overflows]
+
+enabled  = <%= @jails.include?('apache-overflows') : 'true' : 'false' %>
+port     = http,https
+filter   = apache-overflows
+logpath  = /var/log/apache*/*error.log
+maxretry = 2
+
+[postfix]
+
+enabled  = <%= @jails.include?('postfix') : 'true' : 'false' %>
+port     = smtp,ssmtp
+filter   = postfix
+logpath  = /var/log/mail.log
+
+[sasl]
+
+enabled  = <%= @jails.include?('sasl') : 'true' : 'false' %>
+port     = smtp,ssmtp,imaps
+filter   = sasl
+logpath  = /var/log/mail.log
+
+[dovecot]
+
+enabled = <%= @jails.include?('dovecot') : 'true' : 'false' %>
+port    = smtp,ssmtp,imaps
+filter  = dovecot
+logpath = /var/log/mail.log
+
+[fail2ban]
+
+enabled  = <%= @jails.include?('fail2ban') : 'true' : 'false' %>
+filter   = fail2ban
+action   = iptables-allports[name=fail2ban]
+           sendmail-whois[name=fail2ban]
+logpath  = /var/log/fail2ban.log
+findtime = 604800
+bantime  = 604800
