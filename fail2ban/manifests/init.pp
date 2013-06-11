@@ -1,9 +1,7 @@
 class fail2ban(
   $jails = $fail2ban::params::jails
 ) inherits fail2ban::params {
-  if $jails.include('ssh') {
-    $ssh_port = hiera('ssh::port', 22)
-  }
+  $ssh_port = hiera('ssh::port', 22)
   package { "fail2ban": 
     ensure => installed
   }
