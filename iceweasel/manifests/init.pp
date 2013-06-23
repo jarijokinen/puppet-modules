@@ -3,13 +3,17 @@ class iceweasel inherits iceweasel::params {
     ensure  => installed,
     require => [
       File["/etc/apt/sources.list.d/iceweasel.list"],
-      Package["pkg-mozilla-archive-keyring"]
+      Package["pkg-mozilla-archive-keyring"],
+      Package["flashplugin-nonfree"]
     ],
     before  => Exec["apt-update"]
   }
+  package { "flashplugin-nonfree": 
+    ensure  => installed
+  }
   package { "pkg-mozilla-archive-keyring": 
-    ensure => installed,
-    notify => Exec["iceweasel-add-archive-key"],
+    ensure  => installed,
+    notify  => Exec["iceweasel-add-archive-key"],
     require => File["/etc/apt/sources.list.d/iceweasel.list"]
   }
   file { "/etc/apt/sources.list.d/iceweasel.list":
