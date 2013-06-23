@@ -1,20 +1,20 @@
 class iceweasel inherits iceweasel::params {
   package { "iceweasel":
     ensure  => installed,
-    require => File["/etc/apt/sources.list.d/iceweasel.list"],
-    notify  => [ 
-      Exec["iceweasel-pax"],
-      Exec["iceweasel-plugin-pax"]
-    ]
+    require => [
+      File["/etc/apt/sources.list.d/iceweasel.list"],
+      Package["pkg-mozilla-archive-keyring"]
+    ],
+    before  => Exec["apt-update"]
   }
   package { "pkg-mozilla-archive-keyring": 
     ensure => installed,
-    notify => Exec["iceweasel-add-archive-key"]
+    notify => Exec["iceweasel-add-archive-key"],
+    require => File["/etc/apt/sources.list.d/iceweasel.list"]
   }
   file { "/etc/apt/sources.list.d/iceweasel.list":
     ensure  => present,
     content => template("iceweasel/sources.list.erb"),
-    require => Package["pkg-mozilla-archive-keyring"],
     notify  => Exec["apt-update"]
   }
   file { "/etc/iceweasel/pref/iceweasel.js":
@@ -24,16 +24,7 @@ class iceweasel inherits iceweasel::params {
   }
   exec { "iceweasel-add-archive-key":
     refreshonly => true,
-    command     => "/usr/bin/gpg --check-sigs --fingerprint --keyring /etc/apt/trusted.gpg.d/pkg-mozilla-archive-keyring.gpg --keyring /usr/share/keyrings/debian-keyring.gpg pkg-mozilla-maintainers"
-  }
-  exec { "iceweasel-pax":
-    refreshonly => true,
-    command     => "/sbin/paxctl -crm /usr/lib/iceweasel/iceweasel",
-    onlyif      => "/usr/bin/test -f /sbin/paxctl"
-  }
-  exec { "iceweasel-plugin-pax":
-    refreshonly => true,
-    command     => "/sbin/paxctl -crm /usr/lib/xulrunner-*/plugin-container",
-    onlyif      => "/usr/bin/test -f /sbin/paxctl"
+    command     => "/usr/bin/gpg --check-sigs --fingerprint --keyring /etc/apt/trusted.gpg.d/pkg-mozilla-archive-keyring.gpg --keyring /usr/share/keyrings/debian-keyring.gpg pkg-mozilla-maintainers",
+    returns     => ["0", "2"]
   }
 }
