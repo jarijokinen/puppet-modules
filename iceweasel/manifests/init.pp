@@ -1,6 +1,6 @@
 class iceweasel inherits iceweasel::params {
   package { "iceweasel":
-    ensure  => installed,
+    ensure  => latest,
     require => [
       File["/etc/apt/sources.list.d/iceweasel.list"],
       Package["pkg-mozilla-archive-keyring"],
