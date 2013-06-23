@@ -8,4 +8,7 @@ class kernel::development inherits kernel {
   package { "gcc-4.7-plugin-dev": 
     ensure => installed
   }
+  package { "bc":
+    ensure => installed
+  }
 }
