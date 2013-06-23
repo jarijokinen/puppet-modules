@@ -1,5 +1,5 @@
 class xfce4 inherits xfce4::params {
-  package { "xfdesktop4": 
+  package { "xfce4": 
     ensure => installed
   }
 }
